@@ -3,45 +3,29 @@ const app = express();
 const server = require('http').Server(app);
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
+// här ligger uri:n till mongodb, men utan att lösen etc kommer synas här
+require('dotenv/config');
 
-const url = "mongodb+srv://test:test@cluster0.zxzkx.mongodb.net/form?retryWrites=true&w=majority"
-mongoose.connect(url,{
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
+app.use(bodyParser.json());
 
-const formSchema = new mongoose.Schema(
-    {
-        data: Object,
-    },
-    {collection:"survey_form"}
+// import routes
+const stonesRoute = require('./routes/stones');
+
+app.use('/', stonesRoute);
+
+app.use(express.urlencoded({ extended: true }));
+
+
+mongoose.connect(process.env.DB_CONNECTION,
+  { useUnifiedTopology: true },
+  () => console.log("connected db")
 );
-
-const Form = mongoose.model("Form", formSchema)
-
-const formData = (bodyData) =>{
-    Form({data:bodyData}).save((err) =>{
-        if(err){
-            throw err;
-        }
-    })
-}
-
-const urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 app.set("view engine", "ejs")
 app.use(express.static("public"));
 
 app.get("/", (req, res)=> {
     res.render("index");
-})
-
-
-app.post("/",urlencodedParser, (req, res)=> {
-formData(req.body);
-    res.render("success", {name: req.body.name});
-})
-
+});
 
 server.listen(3030);
-
