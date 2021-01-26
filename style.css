@@ -28,3 +28,7 @@
 .color{
     color:blue;
 }
+
+body{
+    height: 500vh;
+}
