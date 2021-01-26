@@ -1,52 +1,45 @@
+var tableChild = [];
+let data = {};
 
-
- var tableChild =[];
- let data={};
- window.onload = function () {
-
+window.onload = function () {
   var children = document.getElementById("stencontainer").children;
   console.log(children.length)
-
-
 };
 
 $(function() {
-    $(".sten").draggable();
-  });
-  
+  $(".sten").draggable();
+});
 
-  $(function() {
+
+$(function() {
   $( "body" ).droppable({
 
     tolerance: 'touch',
 
     drop: function() {
       $('body').mouseup(function(e){
-      var offset = $(this).offset();
-      let x = e.clientX - offset.left;
-      let y = e.clientY - offset.top;
-      $('#x_axis').html(x);
-      $('#y_axis').html(y);
-      data = {
-             "x" : x,
-             "y" : y
-          }
-        });
-        var children = document.getElementById("stencontainer").children;
-
-        for (var i = 0; i < children.length; i++) {
-          tableChild = children[i];
-          console.log(tableChild.offsetLeft, children)
+        var offset = $(this).offset();
+        let x = e.clientX - offset.left;
+        let y = e.clientY - offset.top;
+        $('#x_axis').html(x);
+        $('#y_axis').html(y);
+        data = {
+          "x" : x,
+          "y" : y
         }
+      });
+      var children = document.getElementById("stencontainer").children;
 
-        // console.log(data);
+      for (var i = 0; i < children.length; i++) {
+        tableChild = children[i];
+        console.log(tableChild.offsetLeft, children)
+      }
+      // console.log(data);
 
-        
-        $(this)
-        .addClass( "color" )
-}
-
-}
+      $(this)
+      .addClass( "color" )
+    }
+  }
 );
 });
 
